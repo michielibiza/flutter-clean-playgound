@@ -20,10 +20,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^2.0.0
   build_runner: ^2.2.1
+  flutter_lints: ^2.0.0
   freezed: ^2.1.1
   json_serializable: ^6.4.1
+  mockito: ^5.0.0
 
 flutter:
   uses-material-design: true
