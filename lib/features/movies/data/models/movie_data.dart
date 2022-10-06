@@ -1,7 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:movie_list/features/movies/domain/entities/movie.dart';
 
 part 'movie_data.freezed.dart';
+
 part 'movie_data.g.dart';
 
 @freezed
@@ -14,4 +16,8 @@ class MovieData with _$MovieData {
   }) = _MovieData;
 
   factory MovieData.fromJson(Map<String, Object?> json) => _$MovieDataFromJson(json);
+}
+
+extension Conversion on MovieData {
+  Movie toDomain() => Movie(id, title, poster_path, vote_average);
 }
