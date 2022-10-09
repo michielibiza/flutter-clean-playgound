@@ -13,7 +13,7 @@ void main() async {
   when(mockClient.get(any, headers: anyNamed('headers')))
       .thenAnswer((_) async => http.Response(fixture('movie-page-1.json'), 200));
 
-  final dataSource = MovieRemoteDataSourceImpl(mockClient);
+  final dataSource = MovieRemoteDataSourceImpl(client: mockClient);
   final movies = await dataSource.popularMovies;
 
   test('data source returns 20 results', () async {

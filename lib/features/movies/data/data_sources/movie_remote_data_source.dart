@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:movie_list/features/movies/data/models/movie_list_data.dart';
 
@@ -14,9 +14,11 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
   static const String popularMoviesUrl =
       "https://api.themoviedb.org/3/movie/top_rated?api_key=07095d96b6edb4c082c0a9c45782c3ab&language=en-US&page=1";
 
-  final http.Client client;
+  late final http.Client client;
 
-  MovieRemoteDataSourceImpl(this.client);
+  MovieRemoteDataSourceImpl({http.Client? client}) {
+    this.client = client ?? GetIt.instance.get<http.Client>();
+  }
 
   @override
   Future<MovieListPageData> get popularMovies async {

@@ -17,7 +17,7 @@ void main() async {
               MovieData(id: 1, title: "aaa", poster_path: "/aaa.png", vote_average: 1.11),
               MovieData(id: 2, title: "bbb", poster_path: "/bbb.png", vote_average: 2.22),
             ]));
-    final repository = MovieRepositoryImpl(mockDataSource);
+    final repository = MovieRepositoryImpl(remoteSource: mockDataSource);
 
     test('repository.popularMovies returns 2 movies', () async {
       final popularMovies = await repository.popularMovies;
@@ -35,7 +35,7 @@ void main() async {
     when(mockDataSource.popularMovies)
         .thenAnswer((_) async => const MovieListPageData(total_results: 0, page: 0, total_pages: 0, results: []));
 
-    final repository = MovieRepositoryImpl(mockDataSource);
+    final repository = MovieRepositoryImpl(remoteSource: mockDataSource);
 
     test('repository.popularMovies has no items', () async {
       final popularMovies = await repository.popularMovies;
