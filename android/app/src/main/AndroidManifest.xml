@@ -2,7 +2,6 @@
     package="com.michiel.movie_list">
    <application
         android:label="movie_list"
-        android:name="MovieList"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
