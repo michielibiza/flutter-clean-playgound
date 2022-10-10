@@ -23,27 +23,37 @@ class MovieListPageState extends State<MovieListPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      leading: Observer(builder: (_) => state.hasBackButton
-          ? BackButton(onPressed: state.back,)
-          : const SizedBox(width: 0, height: 0,)
-      ),
-      title: Observer(builder: (_) => Text(state.title)),
-      primary: true,
-    ),
-    body: Observer(
-        builder: (_) {
-          if (state.selectedMovie != null) {
-            return _showDetails(state.selectedMovie!);
+  Widget build(BuildContext context) =>
+      WillPopScope(
+        onWillPop: () async {
+          if (state.hasBackButton) {
+            state.back();
+            return false;
           }
-          if (state.isSearching) {
-            return const Center(child: Text("not implemented"));
-          }
-          return _showPopularMovies(state.movieList, (movie) => state.select(movie));
-        }
-    ),
-  );
+          return true;
+        },
+          child: Scaffold(
+            appBar: AppBar(
+              leading: Observer(builder: (_) => state.hasBackButton
+                  ? BackButton(onPressed: state.back,)
+                  : const SizedBox(width: 0, height: 0,)
+              ),
+              title: Observer(builder: (_) => Text(state.title)),
+              primary: true,
+            ),
+            body: Observer(
+                builder: (_) {
+                  if (state.selectedMovie != null) {
+                    return _showDetails(state.selectedMovie!);
+                  }
+                  if (state.isSearching) {
+                    return const Center(child: Text("not implemented"));
+                  }
+                  return _showPopularMovies(state.movieList, (movie) => state.select(movie));
+                }
+            ),
+          )
+      );
 
   Widget _showPopularMovies(MovieList state, Function(Movie) onTap) {
     return ListView.separated(
