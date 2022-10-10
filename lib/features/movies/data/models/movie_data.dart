@@ -1,5 +1,7 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:movie_list/features/movies/domain/entities/movie.dart';
 
 part 'movie_data.freezed.dart';
