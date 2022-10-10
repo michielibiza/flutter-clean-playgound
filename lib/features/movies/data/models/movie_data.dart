@@ -13,6 +13,7 @@ class MovieData with _$MovieData {
     required String title,
     required String poster_path,
     required double vote_average,
+    required String overview,
   }) = _MovieData;
 
   factory MovieData.fromJson(Map<String, Object?> json) => _$MovieDataFromJson(json);
@@ -20,6 +21,9 @@ class MovieData with _$MovieData {
 
 extension Conversion on MovieData {
   // TODO setup configuration for base url and api key
+  String _resolveIconImage(String path) => 'https://image.tmdb.org/t/p/w92$path?api_key=07095d96b6edb4c082c0a9c45782c3ab';
+  String _resolveFullImage(String path) => 'https://image.tmdb.org/t/p/original$path?api_key=07095d96b6edb4c082c0a9c45782c3ab';
+
   Movie toDomain() => Movie(
-      id, title, 'https://image.tmdb.org/t/p/w92$poster_path?api_key=07095d96b6edb4c082c0a9c45782c3ab', vote_average);
+      id, title, _resolveIconImage(poster_path), _resolveFullImage(poster_path), vote_average, overview);
 }

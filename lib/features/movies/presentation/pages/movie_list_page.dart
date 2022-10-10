@@ -35,7 +35,7 @@ class MovieListPageState extends State<MovieListPage> {
     body: Observer(
         builder: (_) {
           if (state.selectedMovie != null) {
-            return const Center(child: Text("not implemented"));
+            return _showDetails(state.selectedMovie!);
           }
           if (state.isSearching) {
             return const Center(child: Text("not implemented"));
@@ -71,7 +71,7 @@ class MovieListPageState extends State<MovieListPage> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white,
-                  image: DecorationImage(fit: BoxFit.fill, image: NetworkImage(movie.posterUrl),
+                  image: DecorationImage(fit: BoxFit.fill, image: NetworkImage(movie.posterIconUrl),
                   ),
                 ),
               ),
@@ -91,4 +91,23 @@ class MovieListPageState extends State<MovieListPage> {
           ),
         ));
   }
+
+  Widget _showDetails(Movie movie) =>
+      Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Image.network(
+                movie.posterFullUrl,
+                width: double.infinity,
+                fit: BoxFit.fitWidth,
+              ),
+              const SizedBox(height: 40,),
+              Text(
+                movie.overview,
+                style: const TextStyle(color: AppColors.primary),
+              ),
+            ],
+          )
+      );
 }

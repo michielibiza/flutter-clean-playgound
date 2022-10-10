@@ -14,8 +14,8 @@ void main() async {
     final mockDataSource = MockMovieRemoteDataSource();
     when(mockDataSource.popularMovies)
         .thenAnswer((_) async => const MovieListPageData(total_results: 100, page: 1, total_pages: 5, results: [
-              MovieData(id: 1, title: "aaa", poster_path: "/aaa.png", vote_average: 1.11),
-              MovieData(id: 2, title: "bbb", poster_path: "/bbb.png", vote_average: 2.22),
+              MovieData(id: 1, title: "aaa", poster_path: "/aaa.png", vote_average: 1.11, overview: "aaaaaaa"),
+              MovieData(id: 2, title: "bbb", poster_path: "/bbb.png", vote_average: 2.22, overview: "bbbbbbb"),
             ]));
     final repository = MovieRepositoryImpl(remoteSource: mockDataSource);
 
