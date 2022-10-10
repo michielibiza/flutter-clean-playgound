@@ -97,12 +97,31 @@ class MovieListPageState extends State<MovieListPage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              Image.network(
-                movie.posterFullUrl,
-                width: double.infinity,
-                fit: BoxFit.fitWidth,
+              Stack(
+                fit: StackFit.passthrough,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        movie.posterFullUrl,
+                        width: double.infinity,
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                      left: 24,
+                      width: 48,
+                      bottom: 0,
+                      height: 48,
+                      child: _buildScoreWidget(movie.score)
+                  ),
+                ],
               ),
-              const SizedBox(height: 40,),
+
+              const SizedBox(height: 16,),
               Text(
                 movie.overview,
                 style: const TextStyle(color: AppColors.primary),
@@ -110,4 +129,34 @@ class MovieListPageState extends State<MovieListPage> {
             ],
           )
       );
+
+  Widget _buildScoreWidget(double score) =>
+      Container(
+        width: 48,
+        height: 48,
+        decoration: const BoxDecoration(
+            color: AppColors.primary,
+            shape: BoxShape.circle
+        ),
+        child: Stack(
+            fit: StackFit.passthrough,
+            children: [
+              Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: CircularProgressIndicator(
+                    backgroundColor: AppColors.primary,
+                    color: AppColors.accent,
+                    value: score / 10,
+                    strokeWidth: 2,
+                  )),
+              Center(
+                  child: Text(
+                    '${(score * 10).toInt()}%',
+                    style: const TextStyle(color: Colors.white),)
+              ),
+            ]
+        ),
+      );
+
+
 }
