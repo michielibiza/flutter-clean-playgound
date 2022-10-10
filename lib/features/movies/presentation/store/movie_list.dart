@@ -10,7 +10,11 @@ part 'movie_list.g.dart';
 class MovieList = MovieListBase with _$MovieList;
 
 abstract class MovieListBase with Store {
-  final _repository = GetIt.instance.get<MovieRepository>();
+  late final MovieRepository _repository;
+
+  MovieListBase({MovieRepository? repository}) {
+    _repository = repository ?? GetIt.instance.get<MovieRepository>();
+  }
 
   @readonly
   ObservableList<Movie> _movies = ObservableList.of([]);
