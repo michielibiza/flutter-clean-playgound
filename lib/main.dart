@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
 import 'package:movie_list/features/movies/data/data_sources/movie_remote_data_source.dart';
 import 'package:movie_list/features/movies/data/repositories/movie_repository_impl.dart';
+import 'package:movie_list/features/movies/presentation/app_colors.dart';
 
 import 'features/movies/domain/repositories/movie_repository.dart';
-import 'package:http/http.dart' as http;
-
 import 'features/movies/presentation/pages/movie_list_page.dart';
 
 void main() {
@@ -29,7 +29,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MovieList',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: AppColors.primary, primary: AppColors.primary, secondary: AppColors.accent),
       ),
       home: const MovieListPage(),
     );

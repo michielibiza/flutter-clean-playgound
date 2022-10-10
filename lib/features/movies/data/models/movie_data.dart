@@ -1,11 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:movie_list/features/movies/domain/entities/movie.dart';
 
 part 'movie_data.freezed.dart';
-
 part 'movie_data.g.dart';
 
 @freezed
@@ -21,5 +19,7 @@ class MovieData with _$MovieData {
 }
 
 extension Conversion on MovieData {
-  Movie toDomain() => Movie(id, title, poster_path, vote_average);
+  // TODO setup configuration for base url and api key
+  Movie toDomain() => Movie(
+      id, title, 'https://image.tmdb.org/t/p/w92$poster_path?api_key=07095d96b6edb4c082c0a9c45782c3ab', vote_average);
 }
