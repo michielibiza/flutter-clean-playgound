@@ -1,12 +1,13 @@
 import 'dart:convert';
-import 'dart:io';
+
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:movie_list/features/core/result.dart';
 import 'package:movie_list/features/movies/data/models/movie_list_data.dart';
 
 abstract class MovieRemoteDataSource {
   // TODO add paging
-  Future<MovieListPageData> get popularMovies;
+  Future<Result<MovieListPageData>> get popularMovies;
 }
 
 class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
@@ -21,12 +22,16 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
   }
 
   @override
-  Future<MovieListPageData> get popularMovies async {
-    final response = await client.get(Uri.parse(popularMoviesUrl));
-    if (response.statusCode == 200) {
-      return MovieListPageData.fromJson(json.decode(response.body));
-    } else {
-      throw HttpException("returned error ${response.statusCode}");
+  Future<Result<MovieListPageData>> get popularMovies async {
+    try {
+      final response = await client.get(Uri.parse(popularMoviesUrl));
+      if (response.statusCode == 200) {
+        return Success(MovieListPageData.fromJson(json.decode(response.body)));
+      } else {
+        return HttpError(response.statusCode);
+      }
+    } catch(e) {
+      return Error(e);
     }
   }
 }

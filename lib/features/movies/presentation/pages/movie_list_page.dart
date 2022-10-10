@@ -49,6 +49,9 @@ class MovieListPageState extends State<MovieListPage> {
                   if (state.isSearching) {
                     return const Center(child: Text("not implemented"));
                   }
+                  if (state.movieList.hasError) {
+                    return const Center(child: Text("There was an error!!\n\nAre you connected to the internet?"));
+                  }
                   return _showPopularMovies(state.movieList, (movie) => state.select(movie));
                 }
             ),

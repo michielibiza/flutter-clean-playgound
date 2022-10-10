@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:movie_list/features/core/result.dart';
 import 'package:movie_list/features/movies/domain/entities/movie.dart';
 import 'package:movie_list/features/movies/domain/repositories/movie_repository.dart';
 
@@ -13,8 +14,13 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<List<Movie>> get popularMovies {
+  Future<Result<List<Movie>>> get popularMovies {
     // TODO add paging
-    return remoteSource.popularMovies.then((page) => page.results.map((e) => e.toDomain()).toList());
+    return remoteSource.popularMovies
+        .then((result) =>
+          result.map((page) =>
+              page.results.map((e) => e.toDomain()).toList()
+          )
+    );
   }
 }
