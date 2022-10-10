@@ -4,6 +4,7 @@ import 'package:movie_list/features/movies/presentation/app_colors.dart';
 import 'package:movie_list/features/movies/presentation/store/movie_list.dart';
 
 import '../../domain/entities/movie.dart';
+import '../store/movie_navigation.dart';
 
 class MovieListPage extends StatefulWidget {
   const MovieListPage({super.key});
@@ -13,63 +14,81 @@ class MovieListPage extends StatefulWidget {
 }
 
 class MovieListPageState extends State<MovieListPage> {
-  final state = MovieList();
+  final state = MovieNavigation();
 
   @override
   void initState() {
     super.initState();
-    state.update();
+    state.movieList.update();
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text('MovieList'),
-          primary: true,
-        ),
-        body: Observer(
-            builder: (_) => ListView.separated(
-                  itemCount: state.movies.length,
-                  itemBuilder: (_, index) => _buildListItem(state.movies[index]),
-                  separatorBuilder: (_, __) => const Divider(
-                    height: 1,
-                  ),
-                )
-        ),
-      );
+    appBar: AppBar(
+      leading: Observer(builder: (_) => state.hasBackButton
+          ? BackButton(onPressed: state.back,)
+          : const SizedBox(width: 0, height: 0,)
+      ),
+      title: Observer(builder: (_) => Text(state.title)),
+      primary: true,
+    ),
+    body: Observer(
+        builder: (_) {
+          if (state.selectedMovie != null) {
+            return const Center(child: Text("not implemented"));
+          }
+          if (state.isSearching) {
+            return const Center(child: Text("not implemented"));
+          }
+          return _showPopularMovies(state.movieList, (movie) => state.select(movie));
+        }
+    ),
+  );
 
-  Widget _buildListItem(Movie movie) {
-    const padding = SizedBox(width: 16,);
-    return SizedBox(
-      height: 56,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          padding,
-          Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-              image: DecorationImage(fit: BoxFit.fill, image: NetworkImage(movie.posterUrl),
-              ),
-            ),
-          ),
-          padding,
-          Expanded(
-              child: Text(
-                movie.title,
-                style: const TextStyle(color: AppColors.primary),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-          ),
-          padding,
-          Image.asset('assets/next.png', width: 12, height: 12, color: AppColors.grey,),
-          padding,
-        ],
+  Widget _showPopularMovies(MovieList state, Function(Movie) onTap) {
+    return ListView.separated(
+      itemCount: state.movies.length,
+      itemBuilder: (_, index) => _buildListItem(state.movies[index], onTap),
+      separatorBuilder: (_, __) => const Divider(
+        height: 1,
       ),
     );
+  }
+
+  Widget _buildListItem(Movie movie, Function(Movie) onTap) {
+    const padding = SizedBox(width: 16,);
+    return GestureDetector(
+        onTap: () => onTap(movie),
+        child: SizedBox(
+          height: 56,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              padding,
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  image: DecorationImage(fit: BoxFit.fill, image: NetworkImage(movie.posterUrl),
+                  ),
+                ),
+              ),
+              padding,
+              Expanded(
+                child: Text(
+                  movie.title,
+                  style: const TextStyle(color: AppColors.primary),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              padding,
+              Image.asset('assets/next.png', width: 12, height: 12, color: AppColors.grey,),
+              padding,
+            ],
+          ),
+        ));
   }
 }
