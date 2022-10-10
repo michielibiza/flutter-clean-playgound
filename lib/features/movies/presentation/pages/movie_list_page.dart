@@ -38,7 +38,7 @@ class MovieListPageState extends State<MovieListPage> {
                   ? BackButton(onPressed: state.back,)
                   : const SizedBox(width: 0, height: 0,)
               ),
-              title: Observer(builder: (_) => Text(state.title)),
+              title: Observer(builder: (_) => Text(state.title, key: const Key("app-bar-title"))),
               primary: true,
             ),
             body: Observer(
@@ -92,6 +92,7 @@ class MovieListPageState extends State<MovieListPage> {
               Expanded(
                 child: Text(
                   movie.title,
+                  key: const Key('list-item-title'),
                   style: const TextStyle(color: AppColors.primary),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
